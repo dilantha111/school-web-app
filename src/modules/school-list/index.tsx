@@ -1,36 +1,31 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
+import { School } from "../../services/school-service";
 
-const SchoolList: React.FunctionComponent = () => {
+interface Props {
+    schools: School[] | null
+};
 
+const SchoolList: React.FunctionComponent<Props> = ({ schools }) => {
     return (
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Username</th>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>Number of students </th>
+                    <th>Address</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td colSpan={2}>Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                {schools && schools.map(school => (
+                    <tr key={school.id}>
+                        <td>{school.id}</td>
+                        <td> {school.schoolName} </td>
+                        <td> {school.numberOfStudents} </td>
+                        <td> {`${school.street}, ${school.suburb}, ${school.state}, ${school.postcode}`} </td>
+                    </tr>
+                ))}
             </tbody>
         </Table>
     );
