@@ -12,13 +12,17 @@ const Home: React.FunctionComponent = () => {
         setSchools(schoolsData);
     }, []);
 
+    const handleSearch = (searchTerm: string) => {
+        console.log(searchTerm);
+    };
+
     useEffect(() => {
         fetchData();
     }, [fetchData]);
 
     return (
         <Container>
-            <Header />
+            <Header onSearch={handleSearch} />
             <SchoolList schools={schools} />
         </Container>
     );

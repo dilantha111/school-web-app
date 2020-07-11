@@ -9,7 +9,9 @@ import './index.scss';
 
 interface Props {
   show: Boolean,
-  onHide: (error: string | false) => void
+  onHide: () => void,
+  onSuccss: () => void,
+  onFailure: (error: string) => void,
 };
 
 const schema = object({
@@ -21,10 +23,11 @@ const schema = object({
   state: string().required(),
 });
 
-const AddNewSchoolModal: React.FunctionComponent<Props> = (props) => {
+const AddNewSchoolModal: React.FunctionComponent<Props> = ({show, onHide, onFailure, onSuccss}) => {
   return (
     <Modal
-      {...props}
+      show={show}
+      onHide={onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -39,13 +42,13 @@ const AddNewSchoolModal: React.FunctionComponent<Props> = (props) => {
         validationSchema={schema}
         onSubmit={async (value, actions) => {
           actions.setSubmitting(true);
-          const { onHide } = props;
+          
           try {
             await addNewSchool(value as School);
             actions.setSubmitting(false);
-            onHide(false);
+            onSuccss();
           } catch (error) {
-            onHide(error.message);
+            onFailure(error.message);
           }
         }}
         initialValues={{
