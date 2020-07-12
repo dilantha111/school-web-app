@@ -6,14 +6,29 @@ import { fetchSchools, School } from '../../services/school-service';
 
 const Home: React.FunctionComponent = () => {
     const [schools, setSchools] = useState<School[] | null>(null);
+    const [filteredSchools, setFilteredSchools] = useState<School[] | null>(null);
 
     const fetchData = React.useCallback(async (): Promise<void> => {
-        const schoolsData = await fetchSchools();
-        setSchools(schoolsData);
+        try {
+            const schoolsData = await fetchSchools();
+            setSchools(schoolsData);
+            setFilteredSchools(schoolsData);
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
+        }
     }, []);
 
     const handleSearch = (searchTerm: string) => {
-        console.log(searchTerm);
+        if (schools) {
+            if (!searchTerm || searchTerm === '') {
+                setFilteredSchools(schools);
+            } else {
+                setFilteredSchools(schools
+                    .filter(school => `${school.schoolName} ${school.street} ${school.suburb} ${school.postCode} ${school.state}`
+                        .toLowerCase().includes(searchTerm.toLowerCase())));
+            }
+        }
     };
 
     useEffect(() => {
@@ -22,8 +37,8 @@ const Home: React.FunctionComponent = () => {
 
     return (
         <Container>
-            <Header onSearch={handleSearch} />
-            <SchoolList schools={schools} />
+            <Header onSearch={handleSearch} onAddNewSchoolSuccess={fetchData} />
+            <SchoolList schools={filteredSchools} />
         </Container>
     );
 };

@@ -9,14 +9,16 @@ import './index.scss';
 
 interface Props {
     onSearch: (searchTerm: string) => void,
+    onAddNewSchoolSuccess: () => void,
 };
 
 const toastTimeOut = 3000;
 
-const Header: React.FunctionComponent<Props> = ({onSearch}) => {
+const Header: React.FunctionComponent<Props> = ({ onSearch, onAddNewSchoolSuccess }) => {
     const [showAddNewSchool, setShowAddNewSchool] = useState<Boolean>(false);
     const [showToast, setShowToast] = useState<Boolean>(false);
     const [toastMessage, setToastMesage] = useState<{ header: string, body: string }>({ header: '', body: '' });
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleToastClose = (): void => {
         setToastMesage({ header: '', body: '' });
@@ -35,6 +37,8 @@ const Header: React.FunctionComponent<Props> = ({onSearch}) => {
     const handleOnSuccess = () => {
         handleShowToast("Success !!!", 'School has been added successfully !!!');
         setShowAddNewSchool(false);
+        onAddNewSchoolSuccess();
+        setSearchTerm('');
     };
 
     const handleOnFailure = (error: string) => {
@@ -43,9 +47,8 @@ const Header: React.FunctionComponent<Props> = ({onSearch}) => {
     };
 
     const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.value) {
-            onSearch(event.target.value);
-        }
+        setSearchTerm(event.target.value);
+        onSearch(event.target.value);
     };
 
     return (
@@ -61,6 +64,7 @@ const Header: React.FunctionComponent<Props> = ({onSearch}) => {
                         <InputGroup.Text id="basic-addon1"> Search schools :  </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
+                        value={searchTerm}
                         placeholder="ex: Name , address "
                         onChange={handleSearch}
                     />

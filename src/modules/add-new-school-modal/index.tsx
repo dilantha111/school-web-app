@@ -19,7 +19,7 @@ const schema = object({
   numberOfStudents: number().required(),
   street: string().required(),
   suburb: string().required(),
-  postcode: number().required(),
+  postCode: number().required(),
   state: string().required(),
 });
 
@@ -56,7 +56,7 @@ const AddNewSchoolModal: React.FunctionComponent<Props> = ({show, onHide, onFail
           numberOfStudents: '',
           street: '',
           suburb: '',
-          postcode: '',
+          postCode: '',
           state: '',
         }}
       >
@@ -132,17 +132,17 @@ const AddNewSchoolModal: React.FunctionComponent<Props> = ({show, onHide, onFail
                   </Form.Group>
 
                   <Form.Group>
-                    <Form.Label> Postcode </Form.Label>
+                    <Form.Label> postCode </Form.Label>
                     <Form.Control
-                      name="postcode"
-                      value={values.postcode}
+                      name="postCode"
+                      value={values.postCode}
                       onChange={handleChange}
-                      isValid={touched.postcode && !errors.postcode}
-                      isInvalid={touched.postcode && !!errors.postcode}
+                      isValid={touched.postCode && !errors.postCode}
+                      isInvalid={touched.postCode && !!errors.postCode}
                       type="number" placeholder="3000"
                     />
                     <Form.Control.Feedback type="invalid">
-                      {errors.postcode}
+                      {errors.postCode}
                     </Form.Control.Feedback>
                   </Form.Group>
 

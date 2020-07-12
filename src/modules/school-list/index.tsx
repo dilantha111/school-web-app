@@ -23,7 +23,7 @@ const SchoolList: React.FunctionComponent<Props> = ({ schools }) => {
                         <td>{school.id}</td>
                         <td> {school.schoolName} </td>
                         <td> {school.numberOfStudents} </td>
-                        <td> {`${school.street}, ${school.suburb}, ${school.state}, ${school.postcode}`} </td>
+                        <td> {`${school.street}, ${school.suburb}, ${school.state}, ${school.postCode}`} </td>
                     </tr>
                 ))}
             </tbody>

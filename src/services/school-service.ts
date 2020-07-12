@@ -6,17 +6,20 @@ export interface School {
     numberOfStudents: number | '',
     street: string,
     suburb: string,
-    postcode: number | '',
+    postCode: number | '',
     state: string,
 };
 
-export const addNewSchool = async (school: School): Promise<number> => {
-    const res = await fetchClient('http://localhost:3001/api/school', school);
-    console.log(res);
-    return 1;
+const API_URL = 'http://localhost:3020/school';
+
+export const addNewSchool = async (school: School): Promise<void> => {
+    const res = await fetchClient(API_URL, { body: school });
+    if (res.error) {
+        throw Error("Failed to add the school !!!\nPlease Try again !!!");
+    }
 };
 
 export const fetchSchools = async (): Promise<School[]> => {
-    const scholData = await fetchClient('http://localhost:3001/api/school');
+    const scholData = await fetchClient(API_URL);
     return scholData.schools;
 };
